@@ -1,3 +1,4 @@
+// fetch NASA APOD data and display as a webpage on localhost:8080
 package main
 
 import (
@@ -36,10 +37,12 @@ func mainPage(w http.ResponseWriter) {
 	const APIUrl string = "https://api.nasa.gov/planetary/apod?api_key=" + AppAPIKey
 	const TimeoutMax time.Duration = 3
 
+	// init http client
 	var apodClient = &http.Client{
 		Timeout: time.Second * TimeoutMax,
 	}
 
+	// setup get request
 	req, err := http.NewRequest(http.MethodGet, APIUrl, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -47,15 +50,18 @@ func mainPage(w http.ResponseWriter) {
 
 	req.Header.Set("User-Agent", "Intrafoundation Software")
 
+	// do actual REST API GET fetch
 	res, getErr := apodClient.Do(req)
 	if getErr != nil {
 		log.Fatal(getErr)
 	}
 
+	// if request succeeds we have to explictly close it
 	if res.Body != nil {
 		defer res.Body.Close()
 	}
 
+	// get data from API call
 	body, readErr := ioutil.ReadAll(res.Body)
 	if readErr != nil {
 		log.Fatal(readErr)
