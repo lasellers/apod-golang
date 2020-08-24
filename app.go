@@ -32,15 +32,15 @@ func main() {
 }
 
 func mainPage(w http.ResponseWriter) {
-	var APP_API_KEY string = "HAzNETw6VUoq4BIZ0KikSObCBP0xe0gMSbbYaubP"
-	var API_URL string = "https://api.nasa.gov/planetary/apod?api_key=" + APP_API_KEY
+	const AppAPIKey string = "HAzNETw6VUoq4BIZ0KikSObCBP0xe0gMSbbYaubP"
+	const APIUrl string = "https://api.nasa.gov/planetary/apod?api_key=" + AppAPIKey
+	const TimeoutMax time.Duration = 3
 
-	var TIMEOUT_MAX time.Duration = 2
 	var apodClient = &http.Client{
-		Timeout: time.Second * TIMEOUT_MAX,
+		Timeout: time.Second * TimeoutMax,
 	}
 
-	req, err := http.NewRequest(http.MethodGet, API_URL, nil)
+	req, err := http.NewRequest(http.MethodGet, APIUrl, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,12 +61,14 @@ func mainPage(w http.ResponseWriter) {
 		log.Fatal(readErr)
 	}
 
+	// get body containing json string and convert to a go struct type
 	datastore := apod{}
 	jsonErr := json.Unmarshal(body, &datastore)
 	if jsonErr != nil {
 		log.Fatal(readErr)
 	}
 
+	// print html
 	fmt.Fprintln(w, "<!DOCTYPE html>")
 	fmt.Fprintln(w, "<html lang=\"en\">")
 	fmt.Fprintln(w, "<body>")
