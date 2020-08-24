@@ -3,6 +3,7 @@
 Pulls the photo of the day from a NASA API.
 Written in GoLang as a "Hello World" experiment.
 
+(Also, my first GoLang app.)
 
 ## Installation
 
