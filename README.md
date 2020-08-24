@@ -16,5 +16,5 @@ To run the app locally:
 `cd apod-golang`
 `go run app.go`
 
-![apod-golang](https://github.com/lasellers/apod-golang/blob/master/apod.png)
+![apod-golang](https://github.com/lasellers/apod-golang/blob/master/apod-golang.png)
 
